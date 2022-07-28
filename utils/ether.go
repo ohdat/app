@@ -25,6 +25,9 @@ func NewEther(rpcUri string, stepBlock int) Ether {
 		StepBlock: stepBlock,
 	}
 }
+func (s Ether) GetBlockByNum(num int) (*ethrpc.Block, error) {
+	return s.EthRpc.EthGetBlockByNumber(num, true)
+}
 
 //BlockNum 获取以太坊当前高度
 func (s Ether) BlockNum() int {
