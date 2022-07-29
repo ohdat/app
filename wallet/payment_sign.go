@@ -7,6 +7,13 @@ import (
 	"math/big"
 )
 
+type PaymentPaySignKey string
+
+const (
+	PaymentRedeem PaymentPaySignKey = "payment_redeem"
+	PaymentPay    PaymentPaySignKey = "payment_pay"
+)
+
 //PaymentPay payment pay 的签名
 func (s Signature) PaymentPay(
 	ownerAddress string,
