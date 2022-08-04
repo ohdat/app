@@ -11,7 +11,7 @@ func FancyHandleError(err error) (b bool) {
 		// the error happened, 0 = this function, we don't want that.
 		pc, filename, line, _ := runtime.Caller(1)
 
-		log.Printf("[error] in %s [%s:%d] %v", runtime.FuncForPC(pc).Name(), filename, line, err)
+		log.Printf("[error] in %s %s:%d %v", runtime.FuncForPC(pc).Name(), filename, line, err)
 		b = true
 	}
 	return
