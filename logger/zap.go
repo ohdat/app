@@ -23,11 +23,6 @@ func (s *Logger) ErrPrintln(v ...interface{}) {
 	s.Error(fmt.Sprintln(v...))
 }
 
-// Error 输出错误的方法名和行号
-func (s *Logger) Error(msg string, fields ...zap.Field) {
-	s.Logger.Error(msg, fields...)
-}
-
 var zapLogger *Logger
 
 var once sync.Once
