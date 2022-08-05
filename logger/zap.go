@@ -25,7 +25,6 @@ func (s *Logger) ErrPrintln(v ...interface{}) {
 
 // Error 输出错误的方法名和行号
 func (s *Logger) Error(msg string, fields ...zap.Field) {
-	utils.FancyHandleError(fmt.Errorf(msg))
 	s.Logger.Error(msg, fields...)
 }
 
