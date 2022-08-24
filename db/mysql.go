@@ -28,8 +28,6 @@ func initMysql() {
 			manager.SetTimeout(10*time.Second),
 			manager.SetReadTimeout(10*time.Second),
 			manager.SetParseTime(true),
-			manager.SetLoc("Asia/Shanghai"),
-			manager.SetTimeZone("Asia/Shanghai"),
 		).Port(port).Open(true)
 	if err != nil {
 		log.Fatalln("mysql Init Error: ", err)
