@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/ohdat/app/utils"
 	"go.uber.org/zap"
 	"sync"
@@ -21,6 +22,13 @@ func (s *Logger) Printf(format string, v ...interface{}) {
 
 func (s *Logger) ErrPrintln(v ...interface{}) {
 	s.Error(fmt.Sprintln(v...))
+}
+
+func (s *Logger) Trace(id string) {
+	if id == "" {
+		id = uuid.New().String()
+	}
+	s.With(zap.String("trace_id", id))
 }
 
 var zapLogger *Logger
