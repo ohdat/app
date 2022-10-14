@@ -4,6 +4,7 @@ go 1.17
 
 require (
 	github.com/ethereum/go-ethereum v1.10.20
+	github.com/gin-contrib/zap v0.1.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-redsync/redsync/v4 v4.5.1
@@ -14,7 +15,7 @@ require (
 	github.com/spf13/viper v1.12.0
 	github.com/wealdtech/go-ens/v3 v3.5.5
 	github.com/zcpua/manager v0.0.0-20220316120142-d653ebdce679
-	go.uber.org/zap v1.21.0
+	go.uber.org/zap v1.23.0
 	gorm.io/driver/mysql v1.3.5
 	gorm.io/gorm v1.23.8
 )
@@ -71,6 +72,8 @@ require (
 	github.com/tklauser/numcpus v0.2.2 // indirect
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/wealdtech/go-multicodec v1.4.0 // indirect
+	go.opentelemetry.io/otel v1.10.0 // indirect
+	go.opentelemetry.io/otel/trace v1.10.0 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d // indirect
