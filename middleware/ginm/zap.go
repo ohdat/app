@@ -45,7 +45,6 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 		response := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = response
 		c.Next()
-		println("Ginzap")
 
 		if _, ok := skipPaths[path]; !ok {
 			end := time.Now()
@@ -88,9 +87,7 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			if conf.ResponseBody {
 				fields = append(fields, zap.String("response_body", response.body.String()))
 			}
-
 			tags := gintags.Values(c)
-			fmt.Println("tags", tags)
 			for k, v := range tags {
 				fields = append(fields, zap.String("tags."+k, fmt.Sprintf("%v", v)))
 			}
