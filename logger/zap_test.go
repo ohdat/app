@@ -17,6 +17,7 @@ func TestTrace(t *testing.T) {
 		time.Sleep(time.Second)
 		logger.Println("111111111")
 	}(*logger)
+	time.Sleep(time.Nanosecond * 10)
 
 	go func(logger Logger) {
 		logger.Logger = logger.Trace("33")

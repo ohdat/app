@@ -9,7 +9,37 @@ import (
 )
 
 type Logger struct {
+	TraceID string
 	*zap.Logger
+}
+
+func (s *Logger) Info(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Info(msg, fields...)
+}
+
+func (s *Logger) Warn(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Warn(msg, fields...)
+}
+
+func (s *Logger) Error(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Error(msg, fields...)
+}
+
+func (s *Logger) Debug(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Debug(msg, fields...)
+}
+func (s *Logger) Panic(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Panic(msg, fields...)
+}
+
+func (s *Logger) Fatal(msg string, fields ...zap.Field) {
+	fields = append(fields, zap.String("trace_id", s.TraceID))
+	s.Logger.Fatal(msg, fields...)
 }
 
 func (s *Logger) Println(v ...interface{}) {
@@ -24,11 +54,15 @@ func (s *Logger) ErrPrintln(v ...interface{}) {
 	s.Error(fmt.Sprintln(v...))
 }
 
-func (s *Logger) Trace(id string) *zap.Logger {
+func (s *Logger) Trace(id string) {
 	if id == "" {
 		id = uuid.New().String()
 	}
-	return s.With(zap.String("trace_id", id))
+	s.TraceID = id
+}
+func (s *Logger) Copy() *Logger {
+	copy := *s
+	return &copy
 }
 
 var zapLogger *Logger
@@ -38,7 +72,7 @@ var once sync.Once
 func Get(app string) *Logger {
 	once.Do(func() {
 		zapLogger = &Logger{
-			NewZapLogger(app),
+			Logger: NewZapLogger(app),
 		}
 	})
 	return zapLogger
