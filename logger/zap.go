@@ -15,7 +15,8 @@ type Logger struct {
 
 func (s *Logger) Info(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Info(msg, fields...)
+
+	s.Logger.Check(zap.InfoLevel, msg)
 }
 
 func (s *Logger) Warn(msg string, fields ...zap.Field) {
@@ -43,7 +44,7 @@ func (s *Logger) Fatal(msg string, fields ...zap.Field) {
 }
 
 func (s *Logger) Println(v ...interface{}) {
-	s.Info(fmt.Sprintln(v...))
+	s.Logger.WithOptions(zap.AddCallerSkip(1)).Info(fmt.Sprintln(v...))
 }
 
 func (s *Logger) Printf(format string, v ...interface{}) {
