@@ -24,11 +24,11 @@ func (s *Logger) ErrPrintln(v ...interface{}) {
 	s.Error(fmt.Sprintln(v...))
 }
 
-func (s *Logger) Trace(id string) {
+func (s *Logger) Trace(id string) *zap.Logger {
 	if id == "" {
 		id = uuid.New().String()
 	}
-	s.With(zap.String("trace_id", id))
+	return s.With(zap.String("trace_id", id))
 }
 
 var zapLogger *Logger
