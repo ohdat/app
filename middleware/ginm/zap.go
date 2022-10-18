@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/ohdat/app/tags/gintags"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
@@ -73,8 +74,14 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 
 			// log trace and span ID
 			if trace.SpanFromContext(c.Request.Context()).SpanContext().IsValid() {
-				fields = append(fields, zap.String("trace_id", trace.SpanFromContext(c.Request.Context()).SpanContext().TraceID().String()))
+				traceId := trace.SpanFromContext(c.Request.Context()).SpanContext().TraceID().String()
+				c.Set("trace_id", traceId)
+				fields = append(fields, zap.String("trace_id", traceId))
 				fields = append(fields, zap.String("span_id", trace.SpanFromContext(c.Request.Context()).SpanContext().SpanID().String()))
+			} else {
+				traceId := uuid.New().String()
+				c.Set("trace_id", traceId)
+				fields = append(fields, zap.String("trace_id", traceId))
 			}
 
 			// log request body
