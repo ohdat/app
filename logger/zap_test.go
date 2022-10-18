@@ -5,6 +5,7 @@ import (
 )
 
 func TestZap(t *testing.T) {
-	var logger = NewZapLogger("test")
+	var logger = Get("test")
 	logger.Info("testInfo")
+	logger.Warn("testWarn")
 }

@@ -15,44 +15,43 @@ type Logger struct {
 
 func (s *Logger) Info(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-
-	s.Logger.Check(zap.InfoLevel, msg)
+	s.WithOptions(zap.AddCallerSkip(1)).Info(msg, fields...)
 }
 
 func (s *Logger) Warn(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Warn(msg, fields...)
+	s.WithOptions(zap.AddCallerSkip(1)).Warn(msg, fields...)
 }
 
 func (s *Logger) Error(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Error(msg, fields...)
+	s.WithOptions(zap.AddCallerSkip(1)).Error(msg, fields...)
 }
 
 func (s *Logger) Debug(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Debug(msg, fields...)
+	s.WithOptions(zap.AddCallerSkip(1)).Debug(msg, fields...)
 }
 func (s *Logger) Panic(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Panic(msg, fields...)
+	s.WithOptions(zap.AddCallerSkip(1)).Panic(msg, fields...)
 }
 
 func (s *Logger) Fatal(msg string, fields ...zap.Field) {
 	fields = append(fields, zap.String("trace_id", s.TraceID))
-	s.Logger.Fatal(msg, fields...)
+	s.WithOptions(zap.AddCallerSkip(1)).Fatal(msg, fields...)
 }
 
 func (s *Logger) Println(v ...interface{}) {
-	s.Logger.WithOptions(zap.AddCallerSkip(1)).Info(fmt.Sprintln(v...))
+	s.WithOptions(zap.AddCallerSkip(1)).Info(fmt.Sprintln(v...), zap.String("trace_id", s.TraceID))
 }
 
 func (s *Logger) Printf(format string, v ...interface{}) {
-	s.Info(fmt.Sprintf(format, v...))
+	s.WithOptions(zap.AddCallerSkip(1)).Info(fmt.Sprintf(format, v...), zap.String("trace_id", s.TraceID))
 }
 
 func (s *Logger) ErrPrintln(v ...interface{}) {
-	s.Error(fmt.Sprintln(v...))
+	s.WithOptions(zap.AddCallerSkip(1)).Error(fmt.Sprintln(v...), zap.String("trace_id", s.TraceID))
 }
 
 func (s *Logger) Trace(id string) {
