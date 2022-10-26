@@ -1,40 +1,40 @@
 package utils
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/mytokenio/ethrpc"
-	ens "github.com/wealdtech/go-ens/v3"
+	"github.com/wealdtech/go-ens/v3"
 	"log"
 	"time"
 )
 
 type Ether struct {
-	EthRpc    ethrpc.EthRPC
 	StepBlock int //签名过期高度
 	Client    *ethclient.Client
 }
 
-func NewEther(rpcUri string, stepBlock int) Ether {
-	if rpcUri == "" {
-		log.Fatalf("rpcUri is nil")
+func NewEther(uri string, stepBlock int) Ether {
+	if uri == "" {
+		log.Fatalf("uri is nil")
 	}
 	if stepBlock < 1 {
 		stepBlock = 20
 	}
-	client, err := ethclient.Dial(rpcUri)
+	client, err := ethclient.Dial(uri)
 	if err != nil {
 		panic(err)
 	}
 	return Ether{
-		EthRpc:    ethrpc.NewNodeAPI(rpcUri),
 		Client:    client,
 		StepBlock: stepBlock,
 	}
 }
-func (s Ether) GetBlockByNum(num int) (*ethrpc.Block, error) {
-	return s.EthRpc.EthGetBlockByNumber(num, true)
+func (s Ether) GetBlockByNum(num int) (interface{}, error) {
+	log.Println("[Error]", "GetBlockByNum is deprecated, use GetBlockByNumber instead")
+	return nil, errors.New("GetBlockByNum is deprecated, use  Client.GetBlockByNumber instead")
 }
 
 func (s Ether) GetEnsName(address string) (string, error) {
@@ -43,14 +43,14 @@ func (s Ether) GetEnsName(address string) (string, error) {
 
 //BlockNum 获取以太坊当前高度
 func (s Ether) BlockNum() int {
-	block, err := s.EthRpc.EthBlockNumber()
-
+	var ctx = context.Background()
+	block, err := s.Client.BlockNumber(ctx)
 	if err != nil {
 		fmt.Printf("getBlockNumError: %v \n", err)
 		time.Sleep(time.Millisecond * 200) //200 毫秒
 		return s.BlockNum()
 	}
-	return block
+	return int(block)
 }
 
 //ExpiredBlock 获取以太坊当前高度 + 过期高度
