@@ -32,7 +32,7 @@ func NewEther(uri string, stepBlock int) Ether {
 		StepBlock: stepBlock,
 	}
 }
-func (s Ether) GetBlockByNum(num int) (interface{}, error) {
+func (s Ether) GetBlockByNum() (interface{}, error) {
 	log.Println("[Error]", "GetBlockByNum is deprecated, use GetBlockByNumber instead")
 	return nil, errors.New("GetBlockByNum is deprecated, use  Client.GetBlockByNumber instead")
 }
