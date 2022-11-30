@@ -1,0 +1,26 @@
+
+<script src="https://www.recaptcha.net/recaptcha/enterprise.js"></script>
+<script>
+    var widgetId1;
+    grecaptcha.enterprise.ready(function() {
+        widgetId1 = grecaptcha.enterprise.render('example1', {
+            'sitekey' : '6LfOUkEjAAAAAJtbU4ddkQXDqQ93Rx8BeTYYVgBG',
+            'theme' : 'light'
+        });
+        // grecaptcha.enterprise.execute('6LfOUkEjAAAAAJtbU4ddkQXDqQ93Rx8BeTYYVgBG', {action: 'login'}).then(function(token) {
+        // console.log(token);
+        // });
+    });
+    function formSubmit() {
+        var res = grecaptcha.enterprise.getResponse(widgetId1)
+        console.log({res});
+        alert(res);
+    }
+</script>
+
+<form action="javascript:formSubmit()">
+    <div id="example1"></div>
+    <br>
+    <input type="submit" value="getResponse">
+</form>
+<br>
