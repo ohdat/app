@@ -12,6 +12,9 @@ func _() {
 	_ = x[ErrNeedWait-1003]
 	_ = x[ErrSendVerificationCodeFailed-1004]
 	_ = x[ErrVerificationCodeWrong-1005]
+	_ = x[ErrRecaptchaNotFound-1006]
+	_ = x[ErrRecaptchaTimeout-1007]
+	_ = x[ErrRecaptchaFailed-1008]
 	_ = x[ErrNeedLogin-1101]
 	_ = x[ErrTokenExpire-1102]
 	_ = x[ErrTokenVerificationFail-1103]
@@ -33,7 +36,7 @@ func _() {
 }
 
 const (
-	_ErrCode_name_0 = "record not foundneed waitsend verification code failedverification code wrong"
+	_ErrCode_name_0 = "record not foundneed waitsend verification code failedverification code wrongrecaptcha not foundrecaptcha timeoutrecaptcha failed"
 	_ErrCode_name_1 = "need logintoken expiredtoken verification failedaccount not existother loginpassword wrongneed bind infonickname existsignature failedhash verification failedauthorization expired."
 	_ErrCode_name_2 = "payment failedalready paidneed pay"
 	_ErrCode_name_3 = "not qualifygoods not available"
@@ -41,7 +44,7 @@ const (
 )
 
 var (
-	_ErrCode_index_0 = [...]uint8{0, 16, 25, 54, 77}
+	_ErrCode_index_0 = [...]uint8{0, 16, 25, 54, 77, 96, 113, 129}
 	_ErrCode_index_1 = [...]uint8{0, 10, 23, 48, 65, 76, 90, 104, 118, 134, 158, 180}
 	_ErrCode_index_2 = [...]uint8{0, 14, 26, 34}
 	_ErrCode_index_3 = [...]uint8{0, 11, 30}
@@ -50,7 +53,7 @@ var (
 
 func (i ErrCode) String() string {
 	switch {
-	case 1002 <= i && i <= 1005:
+	case 1002 <= i && i <= 1008:
 		i -= 1002
 		return _ErrCode_name_0[_ErrCode_index_0[i]:_ErrCode_index_0[i+1]]
 	case 1101 <= i && i <= 1111:

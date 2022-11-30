@@ -8,6 +8,7 @@ package recaptcha
 
 import (
 	"encoding/json"
+	"github.com/ohdat/app/response"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,19 +25,19 @@ type RecaptchaResponse struct {
 	ErrorCodes  []string  `json:"error-codes"`
 }
 
-//const recaptchaServerName = "https://recaptchaenterprise.googleapis.com"
-const recaptchaServerName = "https://recaptchaenterprise.googleapis.com/recaptcha/api/siteverify"
+// const recaptchaServerName = "https://www.google.com/recaptcha/api/siteverify"
+const recaptchaServerName = "https://www.recaptcha.net/recaptcha/api/siteverify"
 
-//https://www.google.com/recaptcha/api/siteverify
+//
 var recaptchaPrivateKey string
 
 // check uses the client ip address, the challenge code from the reCaptcha form,
 // and the client's response input to that challenge to determine whether or not
 // the client answered the reCaptcha input question correctly.
 // It returns a boolean value indicating whether or not the client answered correctly.
-func check(remoteip, response string) (r RecaptchaResponse, err error) {
+func check(remoteIP, response string) (r RecaptchaResponse, err error) {
 	resp, err := http.PostForm(recaptchaServerName,
-		url.Values{"secret": {recaptchaPrivateKey}, "remoteip": {remoteip}, "response": {response}})
+		url.Values{"secret": {recaptchaPrivateKey}, "remoteip": {remoteIP}, "response": {response}})
 	if err != nil {
 		log.Printf("Post error: %s\n", err)
 		return
@@ -61,9 +62,21 @@ func check(remoteip, response string) (r RecaptchaResponse, err error) {
 // and the client's response input to that challenge to determine whether or not
 // the client answered the reCaptcha input question correctly.
 // It returns a boolean value indicating whether or not the client answered correctly.
-func Confirm(remoteip, response string) (result bool, err error) {
-	resp, err := check(remoteip, response)
+func Confirm(remoteIP, token string) (result bool, err error) {
+	resp, err := check(remoteIP, token)
+	if err != nil {
+		err = response.ErrRecaptchaFailed
+	}
 	result = resp.Success
+	if !result {
+		//resp.ErrorCodes  in ["timeout-or-duplicate"]
+		for i := 0; i < len(resp.ErrorCodes); i++ {
+			if resp.ErrorCodes[i] == "timeout-or-duplicate" {
+				err = response.ErrRecaptchaTimeout
+				break
+			}
+		}
+	}
 	return
 }
 

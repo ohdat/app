@@ -20,6 +20,10 @@ const (
 	ErrSendVerificationCodeFailed // send verification code failed
 	// ErrVerificationCodeWrong 验证码发送失败
 	ErrVerificationCodeWrong //verification code wrong
+
+	ErrRecaptchaNotFound // recaptcha not found
+	ErrRecaptchaTimeout  // recaptcha timeout
+	ErrRecaptchaFailed   // recaptcha failed
 )
 
 //登录错误
