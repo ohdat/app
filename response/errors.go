@@ -74,3 +74,10 @@ const (
 	ErrNoRunningGame    ErrCode = iota + 1401 //no running game
 	ErrRunningGameExist                       //running game exist
 )
+
+//调查问卷相关错误
+const (
+	ErrQuestionnaireFailed      ErrCode = iota + 1501 //questionnaire running failed
+	ErrQuestionnaireInviteCode                        // invited code invalid
+	ErrQuestionnaireAddressUsed                       // address used
+)
