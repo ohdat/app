@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
+	"math/big"
+	"time"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/shopspring/decimal"
 	"github.com/wealdtech/go-ens/v3"
-	"log"
-	"math/big"
-	"time"
 )
 
 type Ether struct {
@@ -69,7 +70,7 @@ func (s Ether) Balance(address string) (balance string, err error) {
 	)
 	//DECIMAL
 	amount, err = s.Client.BalanceAt(ctx, common.HexToAddress(address), nil)
-	decimal.NewFromBigInt(amount, 18)
-	balance = amount.String()
+	// fmt.Printf("amount: %v \n", amount)
+	balance = decimal.NewFromBigInt(amount, 0).Div(decimal.NewFromBigInt(big.NewInt(1), 18)).RoundFloor(4).String()
 	return
 }
