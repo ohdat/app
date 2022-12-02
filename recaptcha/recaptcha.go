@@ -69,6 +69,7 @@ func Confirm(remoteIP, token string) (result bool, err error) {
 	}
 	result = resp.Success
 	if !result {
+		err = response.ErrRecaptchaFailed
 		//resp.ErrorCodes  in ["timeout-or-duplicate"]
 		for i := 0; i < len(resp.ErrorCodes); i++ {
 			if resp.ErrorCodes[i] == "timeout-or-duplicate" {

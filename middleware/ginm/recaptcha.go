@@ -1,7 +1,6 @@
 package ginm
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/ohdat/app/recaptcha"
 	"github.com/ohdat/app/response"
@@ -16,8 +15,7 @@ func Recaptcha(secret string) gin.HandlerFunc {
 			c.Abort()
 		}
 		if ok, err := recaptcha.Confirm(c.ClientIP(), token); !ok {
-			fmt.Printf("Recaptcha err: %v", err)
-			response.ErrorResponse(c, response.ErrRecaptchaFailed)
+			response.ErrorResponse(c, err)
 			c.Abort()
 		}
 		c.Next()
