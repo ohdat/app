@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/shopspring/decimal"
 	"github.com/wealdtech/go-ens/v3"
 	"log"
+	"math/big"
 	"time"
 )
 
@@ -57,5 +59,17 @@ func (s Ether) BlockNum() int {
 func (s Ether) ExpiredBlock() (block int) {
 	block = s.BlockNum()
 	block = block + s.StepBlock
+	return
+}
+
+func (s Ether) Balance(address string) (balance string, err error) {
+	var (
+		amount *big.Int
+		ctx    = context.Background()
+	)
+	//DECIMAL
+	amount, err = s.Client.BalanceAt(ctx, common.HexToAddress(address), nil)
+	decimal.NewFromBigInt(amount, 18)
+	balance = amount.String()
 	return
 }

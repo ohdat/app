@@ -18,7 +18,10 @@ require (
 	gorm.io/gorm v1.23.8
 )
 
-require go.opentelemetry.io/otel/trace v1.10.0
+require (
+	github.com/shopspring/decimal v1.3.1
+	go.opentelemetry.io/otel/trace v1.10.0
+)
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6 // indirect
