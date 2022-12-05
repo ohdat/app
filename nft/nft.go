@@ -54,6 +54,9 @@ type GetNFT struct {
 
 func GetNft() *Nft {
 	var key = viper.GetString("alchemy.key")
+	if key == "" {
+		panic("alchemy.key is empty")
+	}
 	return NewNft(key)
 }
 
