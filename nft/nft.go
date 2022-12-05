@@ -3,6 +3,7 @@ package nft
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -49,6 +50,11 @@ type GetNFT struct {
 	Pagekey    string `json:"pageKey"`
 	Totalcount int    `json:"totalCount"`
 	Blockhash  string `json:"blockHash"`
+}
+
+func GetNft() *Nft {
+	var key = viper.GetString("alchemy.key")
+	return NewNft(key)
 }
 
 func NewNft(key string) *Nft {
