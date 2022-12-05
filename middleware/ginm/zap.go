@@ -10,6 +10,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"io/ioutil"
+	"log"
 	"time"
 )
 
@@ -87,7 +88,7 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			// log request body
 			if conf.RequestBody && c.Request.Body != nil {
 				bodyBytes, _ := c.GetRawData()
-				fmt.Println("body:", string(bodyBytes))
+				log.Println("body:", string(bodyBytes))
 				fields = append(fields, zap.String("request_body", string(bodyBytes)))
 				c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
 			}
