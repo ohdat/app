@@ -89,6 +89,7 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			if conf.RequestBody && c.Request.Body != nil {
 				bodyBytes, _ := c.GetRawData()
 				log.Println("body:", string(bodyBytes))
+				logger.Info("request body", zap.ByteString("body", bodyBytes))
 				println("bodyddd:", string(bodyBytes))
 				fields = append(fields, zap.String("request_body", string(bodyBytes)))
 				c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
