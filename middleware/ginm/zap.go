@@ -87,8 +87,8 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			// log request body
 			if conf.RequestBody && c.Request.Body != nil {
 				bodyBytes, _ := io.ReadAll(c.Request.Body)
-				c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 				fields = append(fields, zap.String("request_body", string(bodyBytes)))
+				c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 			}
 			// log response body
 			if conf.ResponseBody {
