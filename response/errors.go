@@ -81,4 +81,5 @@ const (
 	ErrQuestionnaireInviteCode                             // invited code invalid
 	ErrQuestionnaireAddressUsed                            // address used
 	ErrQuestionnaireAddressNotExists                       // address not exists
+	ErrQuestionnaireCodeExists                             // code exists
 )
