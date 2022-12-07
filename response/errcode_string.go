@@ -36,6 +36,7 @@ func _() {
 	_ = x[ErrQuestionnaireFailed-1501]
 	_ = x[ErrQuestionnaireInviteCode-1502]
 	_ = x[ErrQuestionnaireAddressUsed-1503]
+	_ = x[ErrQuestionnaireAddressNotExists-1504]
 }
 
 const (
@@ -44,7 +45,7 @@ const (
 	_ErrCode_name_2 = "payment failedalready paidneed pay"
 	_ErrCode_name_3 = "not qualifygoods not available"
 	_ErrCode_name_4 = "no running gamerunning game exist"
-	_ErrCode_name_5 = "questionnaire running failedinvited code invalidaddress used"
+	_ErrCode_name_5 = "questionnaire running failedinvited code invalidaddress usedaddress not exists"
 )
 
 var (
@@ -53,7 +54,7 @@ var (
 	_ErrCode_index_2 = [...]uint8{0, 14, 26, 34}
 	_ErrCode_index_3 = [...]uint8{0, 11, 30}
 	_ErrCode_index_4 = [...]uint8{0, 15, 33}
-	_ErrCode_index_5 = [...]uint8{0, 28, 48, 60}
+	_ErrCode_index_5 = [...]uint8{0, 28, 48, 60, 78}
 )
 
 func (i ErrCode) String() string {
@@ -73,7 +74,7 @@ func (i ErrCode) String() string {
 	case 1401 <= i && i <= 1402:
 		i -= 1401
 		return _ErrCode_name_4[_ErrCode_index_4[i]:_ErrCode_index_4[i+1]]
-	case 1501 <= i && i <= 1503:
+	case 1501 <= i && i <= 1504:
 		i -= 1501
 		return _ErrCode_name_5[_ErrCode_index_5[i]:_ErrCode_index_5[i+1]]
 	default:

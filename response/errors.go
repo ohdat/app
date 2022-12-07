@@ -77,7 +77,8 @@ const (
 
 //调查问卷相关错误
 const (
-	ErrQuestionnaireFailed      ErrCode = iota + 1501 //questionnaire running failed
-	ErrQuestionnaireInviteCode                        // invited code invalid
-	ErrQuestionnaireAddressUsed                       // address used
+	ErrQuestionnaireFailed           ErrCode = iota + 1501 //questionnaire running failed
+	ErrQuestionnaireInviteCode                             // invited code invalid
+	ErrQuestionnaireAddressUsed                            // address used
+	ErrQuestionnaireAddressNotExists                       // address not exists
 )
