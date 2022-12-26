@@ -66,6 +66,23 @@ const (
 	ErrNotQualify ErrCode = iota + 1301 // not qualify
 	// ErrGoods 商品信息错误
 	ErrGoods // goods not available
+	//ErrPriceNotEnough 出价不够
+	ErrPriceNotEnough // price not enough
+	//ErrAuctionEnded 拍卖已结束
+	ErrAuctionEnded // auction ended
+	//ErrBuyItNowPricesChanged 限时抢拍价已更新
+	ErrBuyItNowPricesChanged // buy it now prices change
+	//ErrNeedPledge 需付押金
+	ErrNeedPledge // need pledge
+	//ErrRedeemFailed 兑换失败
+	ErrRedeemFailed // redeem failed
+	//ErrRedeemCodeUsed 兑换码已兑换
+	ErrRedeemCodeUsed // redeem code used
+	//ErrBuyLimit 限购
+	ErrBuyLimit // buy limit reached
+	//ErrNotEnoughMoney 余额不足
+	ErrNotEnoughMoney // not enough money
+
 )
 
 //游戏相关错误
