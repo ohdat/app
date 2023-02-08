@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"github.com/ohdat/app/response"
 	"log"
+	"reflect"
 	"runtime"
 )
 
@@ -14,5 +16,22 @@ func FancyHandleError(err error) (b bool) {
 		log.Printf("[error] in %s %s:%d %v", runtime.FuncForPC(pc).Name(), filename, line, err)
 		b = true
 	}
+	return
+}
+
+func GetErrorCode(err error) (code int) {
+	err = response.ErrAccountNotExist
+	errType := reflect.TypeOf(err)
+	defer func() {
+		if err := recover(); err != nil {
+			log.Println("error:", err)
+			code = 1001
+		}
+	}()
+	if errType.Name() == "ErrCode" {
+		code = err.(response.ErrCode).Code()
+		return
+	}
+	code = 1001
 	return
 }
