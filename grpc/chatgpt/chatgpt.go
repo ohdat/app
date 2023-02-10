@@ -48,18 +48,20 @@ func (s *GrpcClient) Close() {
 }
 
 func (s *GrpcClient) SendMessage(wsId, message, ConversationId, ParentMessageId string) (err error) {
-	var req = new(opb.ChatgptRequest)
-	req.Message = message
+	var chartMsg = new(opb.ChatgptMesasge)
+	chartMsg.Message = message
+	chartMsg.ConversationId = ConversationId
+	chartMsg.ParentMessageId = ParentMessageId
+	var req = new(opb.ChatgptMesasgeWs)
 	req.WsId = wsId
-	req.ConversationId = ConversationId
-	req.ParentMessageId = ParentMessageId
+	req.Message = chartMsg
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	var res *opb.ChatgptResponse
+	var res *opb.ChatgptMesasgeWs
 	res, err = s.client.SendMessage(ctx, req)
 	if err != nil {
 		return
 	}
-	res.Message = message
+	println("MessageId:", res.Message.MessageId)
 	return
 }
