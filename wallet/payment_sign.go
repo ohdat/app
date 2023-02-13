@@ -1,6 +1,7 @@
 package wallet
 
 import (
+	"encoding/hex"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -14,7 +15,7 @@ const (
 	PaymentPay    PaymentPaySignKey = "payment_pay"
 )
 
-//PaymentPay payment pay 的签名
+// PaymentPay payment pay 的签名
 func (s Signature) PaymentPay(
 	ownerAddress string,
 	amount big.Int,
@@ -23,12 +24,16 @@ func (s Signature) PaymentPay(
 	nonce string,
 	key string,
 ) (hashStr, signature string, err error) {
+	//hexStr := "iq20230213072752447521620194513339"
+	//utfBytes := string.ToUtf8Bytes(nonce)
+	//string.ToUtf8Bytes(nonce)
+	var nonceBytes, _ = hex.DecodeString(nonce)
 	hash := crypto.Keccak256Hash(
 		common.HexToAddress(ownerAddress).Bytes(),
 		common.LeftPadBytes(amount.Bytes(), 32),
 		common.HexToAddress(tokenAddress).Bytes(),
 		common.HexToAddress(toAddress).Bytes(),
-		[]byte(nonce),
+		nonceBytes,
 		[]byte(key),
 	)
 	hashByte := s.sha3Hash(hash.Bytes())
@@ -37,7 +42,7 @@ func (s Signature) PaymentPay(
 	return
 }
 
-//PaymentRedeem payment redeem 的签名
+// PaymentRedeem payment redeem 的签名
 func (s Signature) PaymentRedeem(
 	ownerAddress string,
 	amount big.Int,
