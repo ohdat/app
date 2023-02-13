@@ -14,10 +14,10 @@ func TestPaymentPay(t *testing.T) {
 
 	var (
 		operatorAddress string   = "0xba7425B0E095da6D84B3425d295af6dfFDDdD017"
-		amount          *big.Int = big.NewInt(10000000000000000)
-		tokenAddress    string   = "0x0000000000000000000000000000000000000000"
+		amount          *big.Int = big.NewInt(1000000000000000000)
+		tokenAddress    string   = "0xe4086f2144a2d7e8568860f142d316c8d861c2a2"
 		toAddress       string   = "0xe8bB7a6BD5b7b1c4303D5b80c27c4f301768Ee03"
-		nonce           string   = "abc"
+		nonce           string   = "iq20230213075623447524491464023404"
 		hashStr         string
 		err             error
 		signature       string

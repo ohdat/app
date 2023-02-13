@@ -1,7 +1,6 @@
 package wallet
 
 import (
-	"encoding/hex"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
@@ -27,15 +26,16 @@ func (s Signature) PaymentPay(
 	//hexStr := "iq20230213072752447521620194513339"
 	//utfBytes := string.ToUtf8Bytes(nonce)
 	//string.ToUtf8Bytes(nonce)
-	var nonceBytes, _ = hex.DecodeString(nonce)
+	common.ParseHexOrString(nonce)
 	hash := crypto.Keccak256Hash(
 		common.HexToAddress(ownerAddress).Bytes(),
 		common.LeftPadBytes(amount.Bytes(), 32),
 		common.HexToAddress(tokenAddress).Bytes(),
 		common.HexToAddress(toAddress).Bytes(),
-		nonceBytes,
-		[]byte(key),
+		[]byte(nonce),
+		common.RightPadBytes([]byte(key), 32), // ethers.js 等价 utils.formatBytes32String('payment_pay')
 	)
+
 	hashByte := s.sha3Hash(hash.Bytes())
 	hashStr = hexutil.Encode(hashByte)
 	signature, err = s.sign(hashByte)
