@@ -5,82 +5,106 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
+	"errors"
 )
 
 type AES struct {
-	AesKey []byte // 对称秘钥长度必须是16的倍数
+	iv    []byte
+	block cipher.Block
 }
 
 func New(key string) *AES {
-	// key 要求必须是32位
-	if len(key) != 32 {
-		panic("key length must be 32")
+	//The length of the symmetric key must be a multiple of 16.
+	if len(key)%16 != 0 {
+		panic("key length must be 16 or 32")
 	}
+	// NewCipher creates and returns a new cipher.Block.
+	block, err := aes.NewCipher([]byte(key))
+	if err != nil {
+		panic(err)
+	}
+
 	return &AES{
-		AesKey: []byte(key),
+		iv:    []byte(key)[:block.BlockSize()],
+		block: block,
 	}
 }
-func (a AES) Encode(key string) (s string, err error) {
+
+// pkcs7Padding
+func pkcs7Padding(data []byte, blockSize int) []byte {
+	//判断缺少几位长度。最少1，最多 blockSize
+	padding := blockSize - len(data)%blockSize
+	//补足位数。把切片[]byte{byte(padding)}复制padding个
+	padText := bytes.Repeat([]byte{byte(padding)}, padding)
+	return append(data, padText...)
+}
+
+// pkcs7UnPadding
+func pkcs7UnPadding(data []byte) ([]byte, error) {
+	length := len(data)
+	if length == 0 {
+		return nil, errors.New("data is empty")
+	}
+	// 获取填充的个数
+	// The last byte of the data is the number of padding bytes.
+	unPadding := int(data[length-1])
+	return data[:(length - unPadding)], nil
+}
+
+// Encrypt Encrypt
+func (s *AES) Encrypt(data []byte) ([]byte, error) {
+	//get the block size
+	blockSize := s.block.BlockSize()
+	// padding
+	// The length of the data must be a multiple of the block size.
+	encryptBytes := pkcs7Padding(data, blockSize)
+	// Create a new byte array the size of the crypted text
+	crypted := make([]byte, len(encryptBytes))
+	//using cbc encrypt mode
+	blockMode := cipher.NewCBCEncrypter(s.block, s.iv)
+	// CryptBlocks can work in-place if the two arguments are the same.
+	blockMode.CryptBlocks(crypted, encryptBytes)
+	return crypted, nil
+}
+
+// Decrypt Decrypt
+func (s *AES) Decrypt(data []byte) ([]byte, error) {
+	var err error
+	//using cbc decrypt mode
+	blockMode := cipher.NewCBCDecrypter(s.block, s.iv)
+	// Create a new byte array the size of the original data
+	crypted := make([]byte, len(data))
+	// CryptBlocks can work in-place if the two arguments are the same.
+	blockMode.CryptBlocks(crypted, data)
+	// Remove the padding
+	crypted, err = pkcs7UnPadding(crypted)
+	if err != nil {
+		return nil, err
+	}
+	return crypted, nil
+}
+
+func (s *AES) Encode(key string) (str string, err error) {
 	var b []byte
-	b, err = a.AesEncrypt([]byte(key), a.AesKey)
+	b, err = s.Encrypt([]byte(key))
 	if err != nil {
 		return
 	}
-	s = base64.StdEncoding.EncodeToString(b)
+	str = base64.StdEncoding.EncodeToString(b)
 	return
 }
-func (a AES) Decode(s string) (str string, err error) {
+func (s *AES) Decode(message string) (str string, err error) {
 	var (
 		key []byte
 		b   []byte
 	)
-	key, err = base64.StdEncoding.DecodeString(s)
+	key, err = base64.StdEncoding.DecodeString(message)
 	if err != nil {
 		return
 	}
-	b, err = a.AesDecrypt(key, a.AesKey)
+	b, err = s.Decrypt(key)
 	if err != nil {
 		return
 	}
 	return string(b), nil
-}
-
-func (a AES) PKCS7Padding(ciphertext []byte, blockSize int) []byte {
-	padding := blockSize - len(ciphertext)%blockSize
-	padtext := bytes.Repeat([]byte{byte(padding)}, padding)
-	return append(ciphertext, padtext...)
-}
-
-func (a AES) PKCS7UnPadding(origData []byte) []byte {
-	length := len(origData)
-	unpadding := int(origData[length-1])
-	return origData[:(length - unpadding)]
-}
-
-//AES加密,CBC
-func (a AES) AesEncrypt(origData, key []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	blockSize := block.BlockSize()
-	origData = a.PKCS7Padding(origData, blockSize)
-	blockMode := cipher.NewCBCEncrypter(block, key[:blockSize])
-	crypted := make([]byte, len(origData))
-	blockMode.CryptBlocks(crypted, origData)
-	return crypted, nil
-}
-
-//AES解密
-func (a AES) AesDecrypt(crypted, key []byte) ([]byte, error) {
-	block, err := aes.NewCipher(key)
-	if err != nil {
-		return nil, err
-	}
-	blockSize := block.BlockSize()
-	blockMode := cipher.NewCBCDecrypter(block, key[:blockSize])
-	origData := make([]byte, len(crypted))
-	blockMode.CryptBlocks(origData, crypted)
-	origData = a.PKCS7UnPadding(origData)
-	return origData, nil
 }

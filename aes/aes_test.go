@@ -1,23 +1,23 @@
 package aes
 
 import (
-	"fmt"
 	"testing"
 )
 
-func TestEncode(t *testing.T) {
-	var sss = New("oOC)dO9IFoExp&nzo$gr*$X4xl*qd(($")
+func TestCrypto(t *testing.T) {
 
-	ccc, err := sss.Encode("1111.jpg")
+	var aes = New("TbeRlq2aXl2nTmHZTbeRlq2aXl2nTmHZ")
+
+	ciphertext, err := aes.Encode("mysqlpassword")
+
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
-	bbb, err := sss.Decode(ccc)
+	t.Logf("ciphertext: %s\n", ciphertext)
+
+	decryptMessage, err := aes.Decode(ciphertext)
 	if err != nil {
-		t.Error(err)
+		t.Fatal(err)
 	}
-	fmt.Println("ccc", ccc)
-	fmt.Println("bbb", bbb)
-	t.Log("ccc", ccc)
-	t.Log("bbb", bbb)
+	t.Logf("decryptMessage: %s\n", decryptMessage)
 }
