@@ -3,11 +3,12 @@ package wallet
 import (
 	"crypto/ecdsa"
 	"fmt"
+	"log"
+	"runtime/debug"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
-	"log"
-	"runtime/debug"
 )
 
 type Signature struct {
@@ -44,12 +45,17 @@ func (s Signature) sign(data []byte) (signature string, err error) {
 // safely used to calculate a signature from.
 //
 // The hash is calculated as
-//   keccak256("\x19Ethereum Signed Message:\n"${message length}${message}).
+//
+//	keccak256("\x19Ethereum Signed Message:\n"${message length}${message}).
 //
 // This gives context to the signed message and prevents signing of transactions.
 func (s Signature) sha3Hash(data []byte) []byte {
 	msg := fmt.Sprintf("\x19Ethereum Signed Message:\n%d%s", len(data), data)
 	return crypto.Keccak256([]byte(msg))
+}
+
+func (s Signature) Sign(msg []byte) (string, error) {
+	return s.sign(s.sha3Hash(msg))
 }
 
 func (s Signature) VerifySign(from, sigHex string, msg []byte) bool {
@@ -73,7 +79,7 @@ func (s Signature) VerifySign(from, sigHex string, msg []byte) bool {
 	return fromAddr == recoveredAddr
 }
 
-//SigToPub 验证签名 返回解析后的地址
+// SigToPub 验证签名 返回解析后的地址
 func (s Signature) SigToPub(sigHex string, msg []byte) string {
 	sig := hexutil.MustDecode(sigHex)
 	if sig[64] != 27 && sig[64] != 28 {
