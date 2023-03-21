@@ -2,6 +2,7 @@ package wallet
 
 import (
 	"crypto/ecdsa"
+	"encoding/json"
 	"fmt"
 	"log"
 	"runtime/debug"
@@ -9,6 +10,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/ethereum/go-ethereum/signer/core/apitypes"
 )
 
 type Signature struct {
@@ -56,6 +58,42 @@ func (s Signature) sha3Hash(data []byte) []byte {
 
 func (s Signature) Sign(msg []byte) (string, error) {
 	return s.sign(s.sha3Hash(msg))
+}
+
+// signTypedData eip712 sign
+func (s Signature) SignTypedData(data []byte) (string, error) {
+	var message apitypes.TypedData
+	err := json.Unmarshal(data, &message)
+	if err != nil {
+		return "", err
+	}
+	msg, err := signV4Byte(message)
+	if err != nil {
+		return "", err
+	}
+	return s.sign(msg)
+}
+func fixMessage(typedData apitypes.TypedData) apitypes.TypedData {
+	// opensea listing message has the extra data totalOriginalConsiderationItems
+	// typedData.Message remove totalOriginalConsiderationItems field
+	delete(typedData.Message, "totalOriginalConsiderationItems")
+	return typedData
+}
+func signV4Byte(typedData apitypes.TypedData) ([]byte, error) {
+	typedData = fixMessage(typedData)
+	domainSeparator, err := typedData.HashStruct("EIP712Domain", typedData.Domain.Map())
+	if err != nil {
+		return nil, err
+	}
+
+	typedDataHash, err := typedData.HashStruct(typedData.PrimaryType, typedData.Message)
+	if err != nil {
+		fmt.Printf("typedDataHash failed '%v'", err)
+		return nil, err
+	}
+	rawData := []byte(fmt.Sprintf("\x19\x01%s%s", string(domainSeparator), string(typedDataHash)))
+	sighash := crypto.Keccak256(rawData)
+	return sighash, nil
 }
 
 func (s Signature) VerifySign(from, sigHex string, msg []byte) bool {
