@@ -11,6 +11,7 @@ func (e ErrCode) Code() int {
 }
 
 // go get golang.org/x/tools/cmd/stringer
+//
 //go:generate stringer -type=ErrCode -linecomment
 const (
 	ErrRecordNotFound ErrCode = iota + 1002 // record not found
@@ -26,7 +27,7 @@ const (
 	ErrRecaptchaFailed   // recaptcha failed
 )
 
-//登录错误
+// 登录错误
 const (
 	ErrNeedLogin ErrCode = iota + 1101 // need login
 	// ErrTokenExpire TOKEN过期
@@ -50,7 +51,7 @@ const (
 	ErrAuthExpired          //authorization expired.
 )
 
-//支付错误
+// 支付错误
 const (
 	// ErrPaymentFailed 支付失败
 	ErrPaymentFailed ErrCode = iota + 1201 //payment failed
@@ -60,7 +61,7 @@ const (
 	ErrNeedPay //need pay
 )
 
-//售卖相关错误
+// 售卖相关错误
 const (
 	// ErrNotQualify 用户无资格购买
 	ErrNotQualify ErrCode = iota + 1301 // not qualify
@@ -85,18 +86,23 @@ const (
 
 )
 
-//游戏相关错误
+// 游戏相关错误
 const (
 	//ErrNoRunningGame  没有正在运行的游戏场次
 	ErrNoRunningGame    ErrCode = iota + 1401 //no running game
 	ErrRunningGameExist                       //running game exist
 )
 
-//调查问卷相关错误
+// 调查问卷相关错误
 const (
 	ErrQuestionnaireFailed           ErrCode = iota + 1501 //questionnaire running failed
 	ErrQuestionnaireInviteCode                             // invited code invalid
 	ErrQuestionnaireAddressUsed                            // address used
 	ErrQuestionnaireAddressNotExists                       // address not exists
 	ErrQuestionnaireCodeExists                             // code exists
+)
+
+// 钱包相关错误
+const (
+	ErrWalletInUse ErrCode = iota + 1601 //wallet is in use
 )

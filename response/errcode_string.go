@@ -46,6 +46,7 @@ func _() {
 	_ = x[ErrQuestionnaireAddressUsed-1503]
 	_ = x[ErrQuestionnaireAddressNotExists-1504]
 	_ = x[ErrQuestionnaireCodeExists-1505]
+	_ = x[ErrWalletInUse-1601]
 }
 
 const (
@@ -55,6 +56,7 @@ const (
 	_ErrCode_name_3 = "not qualifygoods not availableprice not enoughauction endedbuy it now prices changeneed pledgeredeem failedredeem code usedbuy limit reachednot enough money"
 	_ErrCode_name_4 = "no running gamerunning game exist"
 	_ErrCode_name_5 = "questionnaire running failedinvited code invalidaddress usedaddress not existscode exists"
+	_ErrCode_name_6 = "wallet is in use"
 )
 
 var (
@@ -86,6 +88,8 @@ func (i ErrCode) String() string {
 	case 1501 <= i && i <= 1505:
 		i -= 1501
 		return _ErrCode_name_5[_ErrCode_index_5[i]:_ErrCode_index_5[i+1]]
+	case i == 1601:
+		return _ErrCode_name_6
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}
