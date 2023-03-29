@@ -60,8 +60,9 @@ func (s *GrpcClient) ProducerRecharge(wallet string, amount int) (err error) {
 	if err != nil {
 		return
 	}
+	return
 	var code = int(res.GetCode())
-	if code != 1001 {
+	if code != 200 {
 		if response.ErrCode(code).Code() != 0 {
 			err = response.ErrCode(code)
 		}
