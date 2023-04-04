@@ -1,11 +1,12 @@
 package db
 
 import (
+	"log"
+	"sync"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
-	"log"
-	"sync"
 )
 
 var gormDB *gorm.DB
@@ -23,7 +24,6 @@ func initGorm() *gorm.DB {
 		log.Fatalln("gorm Init Error: ", err)
 	}
 	return ormDB
-	//fmt.Println("gorm Init finished")
 }
 
 var gormOnce sync.Once
