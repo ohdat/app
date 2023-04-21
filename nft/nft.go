@@ -3,12 +3,13 @@ package nft
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
 	"sync"
+
+	"github.com/spf13/viper"
 )
 
 type TransferRes struct {
@@ -79,7 +80,10 @@ func (s Nft) Total(owner string) (total int, err error) {
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 	var item GetNFT
-	json.Unmarshal(body, &item)
+	err = json.Unmarshal(body, &item)
+	if err != nil {
+		return 0, err
+	}
 	fmt.Println(string(body))
 	return item.Totalcount, nil
 }
@@ -150,12 +154,17 @@ func (s Nft) FormTransfer(owner string, pageKey string) (total int, err error) {
 	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		fmt.Println("Transfer,Err", err)
+		return 0, err
 	}
 
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("content-type", "application/json")
 
-	res, _ := http.DefaultClient.Do(req)
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println("Transfer,Err", err)
+		return 0, err
+	}
 
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
@@ -176,45 +185,45 @@ func (s Nft) ToTransfer(owner string, pageKey string) (total int, err error) {
 	var payload *strings.Reader
 	if pageKey == "" {
 		payload = strings.NewReader(fmt.Sprintf(`{
-		 "id": 1,
-		 "jsonrpc": "2.0",
-		 "method": "alchemy_getAssetTransfers",
-		 "params": [
-			  {
-				   "fromBlock": "0x0",
-				   "toBlock": "latest",
-				   "category": [
-						"erc721",
-						"erc1155"
-				   ],
-				   "withMetadata": false,
-				   "excludeZeroValue": true,
-				   "maxCount": "0x3e8",
-				   "toAddress": "%s"
-			  }
-		 ]
-	}`, owner))
+			"id": 1,
+			"jsonrpc": "2.0",
+			"method": "alchemy_getAssetTransfers",
+			"params": [
+				{
+					"fromBlock": "0x0",
+					"toBlock": "latest",
+					"category": [
+							"erc721",
+							"erc1155"
+					],
+					"withMetadata": false,
+					"excludeZeroValue": true,
+					"maxCount": "0x3e8",
+					"toAddress": "%s"
+				}
+			]
+		}`, owner))
 	} else {
 		payload = strings.NewReader(fmt.Sprintf(`{
-		 "id": 1,
-		 "jsonrpc": "2.0",
-		 "method": "alchemy_getAssetTransfers",
-		 "params": [
-			  {
-				   "fromBlock": "0x0",
-				   "toBlock": "latest",
-				   "category": [
-						"erc721",
-						"erc1155"
-				   ],
-				   "withMetadata": false,
-				   "excludeZeroValue": true,
-				   "maxCount": "0x3e8",
-				   "toAddress": "%s",
-				   "pageKey": "%s"
-			  }
-		 ]
-	}`, owner, pageKey))
+			"id": 1,
+			"jsonrpc": "2.0",
+			"method": "alchemy_getAssetTransfers",
+			"params": [
+				{
+					"fromBlock": "0x0",
+					"toBlock": "latest",
+					"category": [
+							"erc721",
+							"erc1155"
+					],
+					"withMetadata": false,
+					"excludeZeroValue": true,
+					"maxCount": "0x3e8",
+					"toAddress": "%s",
+					"pageKey": "%s"
+				}
+			]
+		}`, owner, pageKey))
 	}
 	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
@@ -223,8 +232,11 @@ func (s Nft) ToTransfer(owner string, pageKey string) (total int, err error) {
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("content-type", "application/json")
 
-	res, _ := http.DefaultClient.Do(req)
-
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		fmt.Println("Transfer,Err", err)
+		return
+	}
 	defer res.Body.Close()
 	body, _ := ioutil.ReadAll(res.Body)
 	//fmt.Println(res)

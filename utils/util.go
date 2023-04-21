@@ -3,14 +3,15 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/viper"
 	"reflect"
 	"strconv"
 	"strings"
+
+	"github.com/spf13/viper"
 )
 
 // DeIn 去掉交集
-func DeIn(ids1, ids2 []int) ([]int, []int) {
+func DeIn(ids1, ids2 []int) (res1 []int, res2 []int) {
 	var ids2Map map[int]int
 	for i := 0; i < len(ids2); i++ {
 		ids2Map[ids2[i]] = ids2[i]

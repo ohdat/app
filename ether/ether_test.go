@@ -1,13 +1,17 @@
 package ether
 
 import (
-	"github.com/spf13/viper"
 	"testing"
+
+	"github.com/spf13/viper"
 )
 
 func TestGetEnsName(t *testing.T) {
 	viper.SetConfigFile("../config.yaml")
-	viper.ReadInConfig()
+	var err = viper.ReadInConfig()
+	if err != nil {
+		t.Log(err)
+	}
 	//config.InitConfig()
 	//// If a config file is found, read it in.
 	//if err := viper.ReadInConfig(); err == nil {

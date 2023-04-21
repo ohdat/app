@@ -320,6 +320,9 @@ func (s WalletService) Sign(data []byte) (signature string, err error) {
 		signatureByte []byte
 	)
 	privateKey, err = crypto.HexToECDSA(s.HexPrivateKey[2:])
+	if err != nil {
+		return
+	}
 	signatureByte, err = crypto.Sign(data, privateKey)
 	if err != nil {
 		return

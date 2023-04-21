@@ -8,12 +8,13 @@ package recaptcha
 
 import (
 	"encoding/json"
-	"github.com/ohdat/app/response"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/ohdat/app/response"
 )
 
 type RecaptchaResponse struct {
@@ -42,7 +43,7 @@ func check(remoteIP, response string) (r RecaptchaResponse, err error) {
 		return
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Println("Read error: could not read body:", err)
 		return

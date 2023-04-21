@@ -1,10 +1,11 @@
 package wallet
 
 import (
+	"math/big"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
-	"math/big"
 )
 
 type PaymentPaySignKey string
@@ -26,7 +27,10 @@ func (s Signature) PaymentPay(
 	//hexStr := "iq20230213072752447521620194513339"
 	//utfBytes := string.ToUtf8Bytes(nonce)
 	//string.ToUtf8Bytes(nonce)
-	common.ParseHexOrString(nonce)
+	_, err = common.ParseHexOrString(nonce)
+	if err != nil {
+		return
+	}
 	hash := crypto.Keccak256Hash(
 		common.HexToAddress(ownerAddress).Bytes(),
 		common.LeftPadBytes(amount.Bytes(), 32),
