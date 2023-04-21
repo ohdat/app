@@ -1,6 +1,7 @@
 package response
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -9,7 +10,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Response 返回结构
 type Response struct {
 	Code      int         `json:"code"`
 	Message   string      `json:"message,omitempty"`
@@ -18,13 +18,13 @@ type Response struct {
 }
 
 const (
-	// CodeSuccess 正确
+	// CodeSuccess
 	CodeSuccess = 200
-	// CodeCommon 通用错误
+	// CodeCommon
 	CodeCommon = 1001
 )
 
-// ErrorResponse 返回错误
+// ErrorResponse
 func ErrorResponse(c *gin.Context, infos ...interface{}) {
 	var err = infos[0].(error)
 	response := &Response{
@@ -49,12 +49,21 @@ func ErrorResponse(c *gin.Context, infos ...interface{}) {
 	}
 }
 
-// SuccessResponse 返回带有数据的正确响应
+// SuccessResponse
 func SuccessResponse(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, &Response{
 		Code:      CodeSuccess,
-		Message:   "OK",
+		Message:   "success",
 		Timestamp: time.Now().Unix(),
 		Data:      data,
+	})
+}
+
+func SuccessJson(data interface{}) ([]byte, error) {
+	return json.Marshal(&Response{
+		Code:      CodeSuccess,
+		Message:   "success",
+		Data:      data,
+		Timestamp: time.Now().Unix(),
 	})
 }
