@@ -40,7 +40,7 @@ func (s S3) putFile(c context.Context, api S3PutObjectAPI, input *s3.PutObjectIn
 	return api.PutObject(c, input)
 }
 
-//RemoteUp 目前只试用小文件
+// RemoteUp 目前只试用小文件
 func (s S3) RemoteUp(url string, bucket Bucket, name string) (uri string, err error) {
 	if name == "" {
 		name = uuid.New().String()
@@ -125,7 +125,7 @@ func (s S3) client() (client *s3.Client) {
 
 }
 
-//PreSignUri 临时上传uri
+// PreSignUri 临时上传uri
 func (s S3) PreSignUri(bucket Bucket, name, fileType string) (preUri string, viewUrl string, err error) {
 	if name == "" {
 		name = "pre_upload/" + uuid.New().String()

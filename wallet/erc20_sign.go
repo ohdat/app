@@ -16,7 +16,7 @@ const (
 	TokenPay     Erc20SignKey = "token_pay"
 )
 
-//Erc20Stake Erc20 Stake Redeem 的签名
+// Erc20Stake Erc20 Stake Redeem 的签名
 func (s Signature) Erc20Stake(
 	amount big.Int,
 	address, contract string,
@@ -89,7 +89,7 @@ func (s Signature) TokenCollect(
 	return
 }
 
-//TokenPay 20币支付 签名
+// TokenPay 20币支付 签名
 func (s Signature) TokenPay(
 	operatorAddress string,
 	amount *big.Int,

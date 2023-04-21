@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-//DeIn 去掉交集
+// DeIn 去掉交集
 func DeIn(ids1, ids2 []int) ([]int, []int) {
 	var ids2Map map[int]int
 	for i := 0; i < len(ids2); i++ {
@@ -88,7 +88,7 @@ func Struct2struct(in interface{}, out interface{}) {
 }
 
 // StructAssign
-//binding type interface 要修改的结构体
+// binding type interface 要修改的结构体
 // value type interface 有数据的结构体
 func StructAssign(binding interface{}, value interface{}) {
 	bVal := reflect.ValueOf(binding).Elem() //获取reflect.Type类型

@@ -44,7 +44,7 @@ func (s Ether) GetEnsName(address string) (string, error) {
 	return ens.ReverseResolve(s.Client, common.HexToAddress(address))
 }
 
-//BlockNum 获取以太坊当前高度
+// BlockNum 获取以太坊当前高度
 func (s Ether) BlockNum() int {
 	var ctx = context.Background()
 	block, err := s.Client.BlockNumber(ctx)
@@ -56,7 +56,7 @@ func (s Ether) BlockNum() int {
 	return int(block)
 }
 
-//ExpiredBlock 获取以太坊当前高度 + 过期高度
+// ExpiredBlock 获取以太坊当前高度 + 过期高度
 func (s Ether) ExpiredBlock() (block int) {
 	block = s.BlockNum()
 	block = block + s.StepBlock

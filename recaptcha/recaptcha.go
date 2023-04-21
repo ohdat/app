@@ -28,7 +28,6 @@ type RecaptchaResponse struct {
 // const recaptchaServerName = "https://www.google.com/recaptcha/api/siteverify"
 const recaptchaServerName = "https://www.recaptcha.net/recaptcha/api/siteverify"
 
-//
 var recaptchaPrivateKey string
 
 // check uses the client ip address, the challenge code from the reCaptcha form,

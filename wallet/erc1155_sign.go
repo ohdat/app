@@ -16,7 +16,7 @@ const (
 	Redeem1155 Erc1155SignKey = "redeem_1155"
 )
 
-//Stake1155 质押1155
+// Stake1155 质押1155
 func (s Signature) Stake1155(
 	tokenIds []int,
 	tokenAddress string,
@@ -45,7 +45,7 @@ func (s Signature) Stake1155(
 	return
 }
 
-//Redeem1155 取回1155
+// Redeem1155 取回1155
 func (s Signature) Redeem1155(
 	tokenIds []int,
 	tokenAddress string,
