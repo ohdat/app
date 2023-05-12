@@ -46,7 +46,10 @@ func (s *WssPush) Publish(message []byte) {
     ```
 */
 func (s *WssPush) PublishToken(aid, token int) {
-	accountInfo := &AccountInfo{
+	accountInfo := struct {
+		Aid   int `json:"aid"`
+		Token int `json:"token"`
+	}{
 		Aid:   aid,
 		Token: token,
 	}
