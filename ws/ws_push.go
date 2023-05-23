@@ -45,13 +45,17 @@ func (s *WssPush) Publish(message []byte) {
     wsPush.PublishToken(1, 2)
     ```
 */
-func (s *WssPush) PublishToken(aid, token int) {
+func (s *WssPush) PublishToken(aid, token int, event int, balance int) {
 	accountInfo := struct {
-		Aid   int `json:"aid"`
-		Token int `json:"token"`
+		Aid     int `json:"aid"`
+		Token   int `json:"token"`
+		Event   int `json:"event"`
+		Balance int `json:"balance"`
 	}{
-		Aid:   aid,
-		Token: token,
+		Aid:     aid,
+		Token:   token,
+		Event:   event,
+		Balance: balance,
 	}
 	bytes, _ := json.Marshal(accountInfo)
 	s.Publish(bytes)
