@@ -3,7 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -20,7 +20,8 @@ func ipfs2http(uri string) string {
 }
 
 func Uri2Img(uri string) (img string) {
-	resp, err := http.Get(ipfs2http(uri))
+	uri = ipfs2http(uri)
+	resp, err := http.Get(uri)
 	if err != nil {
 		fmt.Printf("http.Get err: %v", err)
 		time.Sleep(time.Microsecond * 100)
@@ -39,7 +40,7 @@ func Uri2Img(uri string) (img string) {
 		//return Uri2Img(uri)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("uri: %s ioutil.ReadAll err: %v \n", uri, err)
 		return ""

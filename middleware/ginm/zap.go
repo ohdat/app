@@ -3,14 +3,15 @@ package ginm
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/ohdat/app/tags/gintags"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"io/ioutil"
-	"time"
 )
 
 type bodyLogWriter struct {
@@ -46,7 +47,7 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 		response := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = response
 		bodyBytes, _ := c.GetRawData()
-		c.Request.Body = ioutil.NopCloser(bytes.NewBuffer(bodyBytes))
+		c.Request.Body = io.NopCloser(bytes.NewBuffer(bodyBytes))
 		c.Next()
 
 		if _, ok := skipPaths[path]; !ok {
@@ -78,8 +79,8 @@ func Ginzap(logger *zap.Logger, conf *Config) gin.HandlerFunc {
 			if trace.SpanFromContext(c.Request.Context()).SpanContext().IsValid() {
 				traceId := trace.SpanFromContext(c.Request.Context()).SpanContext().TraceID().String()
 				c.Set("trace_id", traceId)
-				fields = append(fields, zap.String("trace_id", traceId))
-				fields = append(fields, zap.String("span_id", trace.SpanFromContext(c.Request.Context()).SpanContext().SpanID().String()))
+				fields = append(fields, zap.String("trace_id", traceId),
+					zap.String("span_id", trace.SpanFromContext(c.Request.Context()).SpanContext().SpanID().String()))
 			} else {
 				traceId := uuid.New().String()
 				c.Set("trace_id", traceId)

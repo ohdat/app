@@ -1,10 +1,11 @@
 package utils
 
 import (
-	"github.com/ohdat/app/response"
 	"log"
 	"reflect"
 	"runtime"
+
+	"github.com/ohdat/app/response"
 )
 
 func FancyHandleError(err error) (b bool) {
@@ -20,7 +21,7 @@ func FancyHandleError(err error) (b bool) {
 }
 
 func GetErrorCode(err error) (code int) {
-	err = response.ErrAccountNotExist
+	// err = response.ErrAccountNotExist
 	errType := reflect.TypeOf(err)
 	defer func() {
 		if err := recover(); err != nil {

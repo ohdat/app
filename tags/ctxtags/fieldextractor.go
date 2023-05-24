@@ -35,9 +35,9 @@ func CodeGenRequestFieldExtractor(fullMethod string, req interface{}) map[string
 // TagBasedRequestFieldExtractor is a function that relies on Go struct ctxtags to export log fields from requests.
 // These are usually coming from a protoc-plugin, such as Gogo protobuf.
 //
-//  message Metadata {
-//     repeated string ctxtags = 1 [ (gogoproto.moretags) = "log_field:\"meta_tags\"" ];
-//  }
+//	message Metadata {
+//	   repeated string ctxtags = 1 [ (gogoproto.moretags) = "log_field:\"meta_tags\"" ];
+//	}
 //
 // The tagName is configurable using the tagName variable. Here it would be "log_field".
 func TagBasedRequestFieldExtractor(tagName string) RequestFieldExtractorFunc {
@@ -81,5 +81,4 @@ func reflectMessageTags(msg interface{}, existingMap map[string]interface{}, tag
 			}
 		}
 	}
-	return
 }

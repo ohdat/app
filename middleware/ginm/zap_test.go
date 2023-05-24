@@ -2,12 +2,15 @@ package ginm
 
 import (
 	"bytes"
-	"github.com/gin-gonic/gin"
-	"github.com/ohdat/app/logger"
-	"github.com/ohdat/app/tags/gintags"
+	"io"
+	"log"
 	"net/http"
 	"testing"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/ohdat/app/logger"
+	"github.com/ohdat/app/tags/gintags"
 )
 
 func TestZap(t *testing.T) {
@@ -27,15 +30,23 @@ func TestZap(t *testing.T) {
 		c.JSON(http.StatusOK, gin.H{
 			"s": "pong",
 		})
-		return
 	})
 	go server.Run(":8080")
 	time.Sleep(time.Second * 1)
-	var body = `{"name":"test"}`
+	const url = "http://127.0.0.1:8080/ping?de=1"
+	body := []byte(`{"name":"test"}`)
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(body))
+	if err != nil {
+		log.Fatalf("error occurred while sending request to %s: %v", url, err)
+	}
+	defer resp.Body.Close()
 
-	response, err := http.Post("http://127.0.0.1:8080/ping?de=1", "application/json", bytes.NewBufferString(body))
+	log.Printf("response status: %s", resp.Status)
 
-	t.Log(response)
-	t.Log(err)
-
+	// read response body
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("error reading response body: %v", err)
+	}
+	log.Printf("response body: %s", respBody)
 }

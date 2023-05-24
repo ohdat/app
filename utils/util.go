@@ -12,7 +12,7 @@ import (
 
 // DeIn 去掉交集
 func DeIn(ids1, ids2 []int) (res1 []int, res2 []int) {
-	var ids2Map map[int]int
+	var ids2Map = make(map[int]int)
 	for i := 0; i < len(ids2); i++ {
 		ids2Map[ids2[i]] = ids2[i]
 	}
@@ -69,10 +69,7 @@ func Str2ArrInt(str string) (arr []int, err error) {
 
 // IsDev 是否是开发环境
 func IsDev() bool {
-	if viper.GetString("environment") == "development" {
-		return true
-	}
-	return false
+	return viper.GetString("environment") == "development"
 }
 
 // NotLogin 是否不需要登录

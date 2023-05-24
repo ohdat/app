@@ -5,16 +5,11 @@ import (
 	"encoding/hex"
 	"math/big"
 	"math/rand"
-	"time"
 )
 
 var letters = []byte("abcdefghjkmnpqrstuvwxyz123456789")
 var longLetters = []byte("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ=_")
 var numLetters = []byte("123456789")
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 func RandLowStr(n int) string {
 	var _byte = RandLow(n)
