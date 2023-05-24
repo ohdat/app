@@ -14,6 +14,8 @@ import (
 * var wsPush = ws.NewWssPush(redis)
 * ```
  */
+
+// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush
 type WssPush struct {
 	Redis  *redis.Client
 	SubKey string
@@ -25,6 +27,7 @@ type WssPush struct {
 * var wsPush = ws.NewWssPush(redis)
 * ```
  */
+// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush
 func NewWssPush(Redis *redis.Client) *WssPush {
 	var subKey = viper.GetString("chatgpt.subscribe_key")
 	return &WssPush{
@@ -33,6 +36,7 @@ func NewWssPush(Redis *redis.Client) *WssPush {
 	}
 }
 
+// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush
 func (s *WssPush) Publish(message []byte) {
 	ctx := context.Background()
 	s.Redis.Publish(ctx, s.SubKey, message)
@@ -45,6 +49,7 @@ func (s *WssPush) Publish(message []byte) {
     wsPush.PublishToken(1, 2)
     ```
 */
+// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush
 func (s *WssPush) PublishToken(aid, token int, event int, balance int) {
 	accountInfo := struct {
 		Aid     int `json:"aid"`
