@@ -3,6 +3,7 @@ package ws
 import (
 	"context"
 	"encoding/json"
+	"strconv"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
@@ -89,4 +90,8 @@ func (s *GuapituPush) PublishMJ(aid int, nonce string, message any) {
 //	wsPush.PublishToken(1, 20000)
 func (s *GuapituPush) PublishToken(aid, token int) {
 	s.Publish(aid, "gpt_token", token)
+}
+
+func (s *GuapituPush) PublishPayOK(aid, token int, orderId int) {
+	s.Publish(aid, "gpt:pay:success:"+strconv.Itoa(orderId), token)
 }
