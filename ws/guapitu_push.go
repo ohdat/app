@@ -92,6 +92,6 @@ func (s *GuapituPush) PublishToken(aid, token int) {
 	s.Publish(aid, "gpt_token", token)
 }
 
-func (s *GuapituPush) PublishPayOK(aid, token int, orderId int) {
-	s.Publish(aid, "gpt:pay:success:"+strconv.Itoa(orderId), token)
+func (s *GuapituPush) PublishPayOK(aid, orderId int) {
+	s.Publish(aid, "gpt:pay:success:"+strconv.Itoa(orderId), "success")
 }
