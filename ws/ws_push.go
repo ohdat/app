@@ -49,7 +49,7 @@ func (s *WssPush) Publish(message []byte) {
     wsPush.PublishToken(1, 2)
     ```
 */
-// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush
+// Deprecated: app v1.3.0 之后不推荐使用 预计在 v1.4.0 移除 请使用 ws.NewGuapituPush().PublishToken()
 func (s *WssPush) PublishToken(aid, token int, event int, balance int) {
 	accountInfo := struct {
 		Aid     int `json:"aid"`

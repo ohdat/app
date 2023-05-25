@@ -4,17 +4,46 @@ GuapituPush 用于瓜皮兔推送消息.
 
 ```go
 type GuapituPush struct {
-        Redis  *redis.Client
-        SubKey string
+    Redis  *redis.Client
+    SubKey string
+}
+# 消息体
+Event struct {
+    Event   string      `json:"event"`
+    Message any         `json:"message"`
+}
+
+```
+
+## front end 
+```js
+{
+    event: 'event',
+    message: 'message'
 }
 ```
 
+### 常用 event
+1. `mj:${nonce}` midjourney 消息
+2. `gpt_token`  瓜皮兔token 变化
+3. `pay_success` 支付成功   
+
+
+
 ## How to use?
 
+####  通用推送消息
 ```go
 // import "github.com/ohdat/app/ws"
     var wsPush = ws.NewGuapituPush(common.Redis)
     wsPush.Publish(1, "event", "message").
+```
+
+####  推送 midjourney 消息
+```go
+// import "github.com/ohdat/app/ws"
+    var wsPush = ws.NewGuapituPush(common.Redis)
+    wsPush.PublishMJ(1, "once", "message").
 ```
 
 ## 开发规范
