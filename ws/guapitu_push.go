@@ -63,7 +63,17 @@ func (s *GuapituPush) Publish(aid int, event string, message any) {
 	s.publish(bytes)
 }
 
-func (s *GuapituPush) PublishMJ(aid int, message any) {
-	var event = "mj"
+// PublishMJ 用于瓜皮兔 midjourney 推送消息.
+//
+//	aid 用户id.
+//	nonce 唯一字符串 雪花ID.
+//	message 消息主体.
+//
+// Example:
+//
+//	var wsPush = ws.NewGuapituPush(common.Redis).
+//	wsPush.PublishMJ(1, "nonce", "message").
+func (s *GuapituPush) PublishMJ(aid int, nonce string, message any) {
+	var event = "mj:" + nonce
 	s.Publish(aid, event, message)
 }
