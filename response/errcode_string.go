@@ -47,6 +47,8 @@ func _() {
 	_ = x[ErrQuestionnaireAddressNotExists-1504]
 	_ = x[ErrQuestionnaireCodeExists-1505]
 	_ = x[ErrWalletInUse-1601]
+	_ = x[ErrGuapituFailed-1701]
+	_ = x[ErrGuapituTokenNotEnough-1702]
 }
 
 const (
@@ -57,6 +59,7 @@ const (
 	_ErrCode_name_4 = "no running gamerunning game exist"
 	_ErrCode_name_5 = "questionnaire running failedinvited code invalidaddress usedaddress not existscode exists"
 	_ErrCode_name_6 = "wallet is in use"
+	_ErrCode_name_7 = "guapitu failedguapitu tokken not enough"
 )
 
 var (
@@ -66,6 +69,7 @@ var (
 	_ErrCode_index_3 = [...]uint8{0, 11, 30, 46, 59, 83, 94, 107, 123, 140, 156}
 	_ErrCode_index_4 = [...]uint8{0, 15, 33}
 	_ErrCode_index_5 = [...]uint8{0, 28, 48, 60, 78, 89}
+	_ErrCode_index_7 = [...]uint8{0, 14, 39}
 )
 
 func (i ErrCode) String() string {
@@ -90,6 +94,9 @@ func (i ErrCode) String() string {
 		return _ErrCode_name_5[_ErrCode_index_5[i]:_ErrCode_index_5[i+1]]
 	case i == 1601:
 		return _ErrCode_name_6
+	case 1701 <= i && i <= 1702:
+		i -= 1701
+		return _ErrCode_name_7[_ErrCode_index_7[i]:_ErrCode_index_7[i+1]]
 	default:
 		return "ErrCode(" + strconv.FormatInt(int64(i), 10) + ")"
 	}

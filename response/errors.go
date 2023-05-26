@@ -106,3 +106,9 @@ const (
 const (
 	ErrWalletInUse ErrCode = iota + 1601 //wallet is in use
 )
+
+// 瓜皮兔相关错误
+const (
+	ErrGuapituFailed         ErrCode = iota + 1701 //guapitu failed
+	ErrGuapituTokenNotEnough                       //guapitu tokken not enough
+)
