@@ -31,6 +31,6 @@ func Content2pormpt(content string) string {
 		return matches[1]
 	} else {
 		log.Println("No match found.", content)
-		return ""
+		return content
 	}
 }
