@@ -26,7 +26,7 @@ Event struct {
 ### 常用 event
 1. `mj:${nonce}` midjourney 消息
 2. `gpt_token`  瓜皮兔token 变化
-3. `pay_success` 支付成功   
+3. `gpt:pay:success:{orderId}` 支付成功
 
 
 
