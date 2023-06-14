@@ -110,5 +110,5 @@ const (
 // 瓜皮兔相关错误
 const (
 	ErrGuapituFailed         ErrCode = iota + 1701 //guapitu failed
-	ErrGuapituTokenNotEnough                       //guapitu tokken not enough
+	ErrGuapituTokenNotEnough                       //guapitu token not enough
 )
