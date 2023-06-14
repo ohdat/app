@@ -3,10 +3,9 @@ package ws
 import (
 	"context"
 	"encoding/json"
-	"strconv"
-
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/viper"
+	"strconv"
 )
 
 // GuapituPushMessage 瓜皮兔推送消息结构体.
@@ -93,5 +92,5 @@ func (s *GuapituPush) PublishToken(aid, token int) {
 }
 
 func (s *GuapituPush) PublishPayOK(aid, orderId int) {
-	s.Publish(aid, "gpt:pay:success:"+strconv.Itoa(orderId), "success")
+	s.Publish(aid, "pay_success", strconv.Itoa(orderId))
 }
