@@ -59,7 +59,7 @@ const (
 	_ErrCode_name_4 = "no running gamerunning game exist"
 	_ErrCode_name_5 = "questionnaire running failedinvited code invalidaddress usedaddress not existscode exists"
 	_ErrCode_name_6 = "wallet is in use"
-	_ErrCode_name_7 = "guapitu failedguapitu tokken not enough"
+	_ErrCode_name_7 = "guapitu failedguapitu token not enough"
 )
 
 var (
@@ -69,7 +69,7 @@ var (
 	_ErrCode_index_3 = [...]uint8{0, 11, 30, 46, 59, 83, 94, 107, 123, 140, 156}
 	_ErrCode_index_4 = [...]uint8{0, 15, 33}
 	_ErrCode_index_5 = [...]uint8{0, 28, 48, 60, 78, 89}
-	_ErrCode_index_7 = [...]uint8{0, 14, 39}
+	_ErrCode_index_7 = [...]uint8{0, 14, 38}
 )
 
 func (i ErrCode) String() string {
