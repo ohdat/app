@@ -20,5 +20,5 @@ func GetDcSnowflake() *discord.Node {
 
 // DCNonce returns a snowflake string that can be used as a nonce for Discord.
 func DCNonce() string {
-	return strconv.Itoa(int(GetDcSnowflake().Generate()))
+	return strconv.Itoa(int(NextSnowflakeID()))
 }
