@@ -27,6 +27,7 @@ Event struct {
 1. `mj:${nonce}` midjourney 消息
 2. `gpt_token`  瓜皮兔token 变化
 3. `gpt:pay:success:{orderId}` 支付成功
+4. `gpt:vip:level` 等级变更
 
 
 

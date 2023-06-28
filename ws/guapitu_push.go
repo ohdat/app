@@ -95,3 +95,7 @@ func (s *GuapituPush) PublishToken(aid, token int) {
 func (s *GuapituPush) PublishPayOK(aid, orderId int) {
 	s.Publish(aid, "gpt:pay:success:"+strconv.Itoa(orderId), "success")
 }
+
+func (s *GuapituPush) PublishVipLevel(aid, level int) {
+	s.Publish(aid, "gpt:vip:level", level)
+}
