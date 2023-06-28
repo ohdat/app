@@ -12,6 +12,6 @@ func TestNextSnowflakeID(t *testing.T) {
 
 func TestDCNonce(t *testing.T) {
 	id := DCNonce()
-	log.Fatalln("id", id)
+	log.Println("id", id)
 	t.Log(id)
 }
