@@ -5,7 +5,8 @@ import (
 	"encoding/json"
 	"strconv"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
+
 	"github.com/spf13/viper"
 )
 

@@ -3,11 +3,12 @@ package utils
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis/v8"
-	"github.com/spf13/viper"
 	"log"
 	"testing"
 	"time"
+
+	"github.com/redis/go-redis/v9"
+	"github.com/spf13/viper"
 )
 
 func TestGetLock(t *testing.T) {

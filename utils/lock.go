@@ -1,9 +1,9 @@
 package utils
 
 import (
-	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
-	"github.com/go-redsync/redsync/v4/redis/goredis/v8"
+	"github.com/go-redsync/redsync/v4/redis/goredis/v9"
+	appredis "github.com/redis/go-redis/v9"
 )
 
 const keyPrefix = "lock:"
@@ -18,8 +18,8 @@ const keyPrefix = "lock:"
 //	}
 //
 // defer  lock.Unlock()
-func GetLock(redisV8 *redis.Client, key string) (mutex *redsync.Mutex) {
-	pool := goredis.NewPool(redisV8)
+func GetLock(redisv9 *appredis.Client, key string) (mutex *redsync.Mutex) {
+	pool := goredis.NewPool(redisv9)
 	rs := redsync.New(pool)
 	return rs.NewMutex(keyPrefix + key)
 }
