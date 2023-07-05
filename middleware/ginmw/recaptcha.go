@@ -24,7 +24,7 @@ func Recaptcha(secret string) gin.HandlerFunc {
 
 func getRecaptcha(c *gin.Context) (token string) {
 	// 客户端携带Token有三种方式 1.放在请求头  2.放在URI 3.放在请求体
-	token = c.Param("recaptcha_token")
+	token = c.PostForm("recaptcha_token")
 	if token != "" {
 		return
 	}
