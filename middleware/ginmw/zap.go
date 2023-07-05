@@ -1,4 +1,4 @@
-package ginm
+package ginmw
 
 import (
 	"bytes"

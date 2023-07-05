@@ -1,4 +1,4 @@
-package ginm
+package ginmw
 
 import (
 	"github.com/gin-gonic/gin"
@@ -28,7 +28,7 @@ func getRecaptcha(c *gin.Context) (token string) {
 	if token != "" {
 		return
 	}
-	token = c.GetString("recaptcha_token")
+	token = c.Query("recaptcha_token")
 	if token != "" {
 		return
 	}

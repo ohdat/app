@@ -25,6 +25,8 @@ const (
 	ErrRecaptchaNotFound // recaptcha not found
 	ErrRecaptchaTimeout  // recaptcha timeout
 	ErrRecaptchaFailed   // recaptcha failed
+
+	ErrTooManyRequests // too many requests
 )
 
 // 登录错误
