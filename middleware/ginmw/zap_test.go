@@ -10,7 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/ohdat/app/logger"
-	"github.com/ohdat/app/tags/gintags"
+	"github.com/ohdat/app/middleware/tags/gintags"
 )
 
 func TestZap(t *testing.T) {

@@ -1,4 +1,4 @@
-# ws
+# github.com/ohdat/app/pushmsg
 
 GuapituPush 用于瓜皮兔推送消息.
 

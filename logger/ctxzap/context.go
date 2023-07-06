@@ -2,7 +2,8 @@ package ctxzap
 
 import (
 	"context"
-	"github.com/ohdat/app/tags/ctxtags"
+
+	"github.com/ohdat/app/middleware/tags/ctxtags"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

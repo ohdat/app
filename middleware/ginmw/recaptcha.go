@@ -2,7 +2,7 @@ package ginmw
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/ohdat/app/recaptcha"
+	"github.com/ohdat/app/captcha/recaptcha"
 	"github.com/ohdat/app/response"
 )
 
@@ -11,7 +11,7 @@ func Recaptcha(secret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := getRecaptcha(c)
 		if token == "" {
-			response.ErrorResponse(c, response.ErrRecaptchaNotFound)
+			response.ErrorResponse(c, response.ErrCaptchaTokenNotFound)
 			c.Abort()
 		}
 		if ok, err := recaptcha.Confirm(c.ClientIP(), token); !ok {

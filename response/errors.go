@@ -22,9 +22,9 @@ const (
 	// ErrVerificationCodeWrong 验证码发送失败
 	ErrVerificationCodeWrong //verification code wrong
 
-	ErrRecaptchaNotFound // recaptcha not found
-	ErrRecaptchaTimeout  // recaptcha timeout
-	ErrRecaptchaFailed   // recaptcha failed
+	ErrCaptchaTokenNotFound // captcha token not found
+	ErrCaptchaTimeout       // captcha timeout
+	ErrCaptchaFailed        // captcha failed
 
 	ErrTooManyRequests // too many requests
 )
