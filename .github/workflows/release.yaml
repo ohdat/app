@@ -1,6 +1,6 @@
 name: go-release
 env:
-  APPVERSION: v2.1.${{ github.run_number }}
+  APPVERSION: v1.3.${{ github.run_number }}
 on:
   workflow_dispatch: {}
   push:
