@@ -1,5 +1,6 @@
 package s3
 
+// todo 应该废弃这个 用配置文件
 type Bucket string
 
 func (b Bucket) Domain() string {
@@ -11,8 +12,8 @@ func (b Bucket) Uri(name string) string {
 }
 
 const (
-	Image Bucket = "ohdat-images"
-	Music Bucket = "ohdat-master"
+	Image Bucket = "guapitu-images"
+	Music Bucket = "guapitu-master"
 )
 
 const (
